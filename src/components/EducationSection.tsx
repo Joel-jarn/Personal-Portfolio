@@ -87,7 +87,7 @@ export default function EducationSection() {
                 >
                   {/* Timeline Dot */}
                   <div
-                    className="absolute left-4 md:left-1/2 top-5 w-6 h-6 rounded-full -translate-x-1/2 z-10 flex items-center justify-center timeline-dot"
+                    className="absolute left-5 md:left-1/2 top-3 md:top-5 w-6 h-6 rounded-full -translate-x-1/2 z-10 flex items-center justify-center timeline-dot"
                     style={{
                       background: 'hsl(var(--bg))',
                       border: '1px solid rgba(137,170,204,0.55)',
@@ -98,7 +98,7 @@ export default function EducationSection() {
                   </div>
                   
                   {/* Content Box */}
-                  <div className={`ml-16 sm:ml-20 md:ml-0 md:w-1/2 ${isEven ? 'md:pl-10 lg:pl-16' : 'md:pr-10 lg:pr-16 text-left md:text-right'}`}>
+                  <div className={`ml-16 sm:ml-20 md:ml-0 md:w-[45%] ${isEven ? 'md:pl-16 lg:pl-20 text-left' : 'md:pr-16 lg:pr-20 text-left md:text-right'}`}>
                     <span className="inline-block text-[11px] uppercase tracking-[0.18em] mb-5 px-5 py-2.5 rounded-full min-w-[152px] text-center" style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(0,0,0,0.48)', color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif', backdropFilter: 'blur(14px)' }}>
                       {item.year}
                     </span>

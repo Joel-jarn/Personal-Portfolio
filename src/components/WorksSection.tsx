@@ -147,13 +147,15 @@ function ProjectCard({ project, i, onClick }: { project: typeof PROJECTS[0]; i: 
         </div>
       </div>
 
-      <div className="absolute left-5 right-5 bottom-5 sm:left-6 sm:right-6 sm:bottom-6 md:left-8 md:right-8 md:bottom-8">
-        <h3 className="text-xl sm:text-2xl md:text-[2.15rem] font-light leading-tight mb-3" style={{ color: '#fff' }}>
-          {project.title}
-        </h3>
-        <p className="text-sm md:text-base leading-relaxed max-w-[32rem]" style={{ color: 'rgba(255,255,255,0.68)', fontFamily: 'Inter, sans-serif' }}>
-          {project.overview}
-        </p>
+      <div className="absolute left-5 right-5 bottom-6 sm:left-6 sm:right-6 sm:bottom-8 md:left-8 md:right-8 md:bottom-10">
+        <div className="rounded-[24px] bg-black/45 p-6 sm:p-8 backdrop-blur-xl border border-white/10">
+          <h3 className="text-2xl sm:text-[2.2rem] md:text-[2.6rem] font-light leading-tight mb-4" style={{ color: '#fff' }}>
+            {project.title}
+          </h3>
+          <p className="text-base sm:text-lg leading-relaxed max-w-[42rem]" style={{ color: 'rgba(255,255,255,0.78)', fontFamily: 'Inter, sans-serif' }}>
+            {project.overview}
+          </p>
+        </div>
       </div>
 
       {/* Hover overlay */}
@@ -180,48 +182,61 @@ function ProjectDetailPage({ project, onClose }: { project: typeof PROJECTS[0], 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="min-h-screen px-5 py-6 sm:px-8 lg:px-12 xl:px-16">
+      <div className="relative min-h-screen">
         <button
           onClick={onClose}
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+          className="fixed top-4 left-4 z-50 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/75 px-4 py-2 text-sm text-white transition hover:bg-black/95"
         >
           ← Go back
         </button>
 
-        <div className="mt-10 space-y-10">
-          <div className="space-y-4">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.2em] text-white/80">
-              {project.category}
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light leading-tight" style={{ color: '#f5f5f5' }}>
-              {project.title}
-            </h1>
-            <p className="text-sm uppercase tracking-[0.3em] text-white/60">{project.year}</p>
+        <header className="relative">
+          <div className="aspect-[16/9] w-full overflow-hidden">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/45" />
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-            <div className="space-y-12">
-              <section className="space-y-4">
+          <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-14">
+            <div className="max-w-3xl rounded-[28px] border border-white/10 bg-black/40 p-8 backdrop-blur-xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs uppercase tracking-[0.2em] text-white/85">
+                {project.category}
+              </span>
+              <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-light leading-tight text-white">
+                {project.title}
+              </h1>
+              <p className="mt-3 text-sm uppercase tracking-[0.3em] text-white/60">{project.year}</p>
+            </div>
+          </div>
+        </header>
+
+        <main className="px-6 pb-20 pt-16 sm:px-10 lg:px-14 xl:px-16">
+          <div className="grid gap-16 lg:grid-cols-[1.3fr_0.7fr]">
+            <div className="space-y-16 max-w-4xl">
+              <section className="space-y-6">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Overview</h2>
-                <p className="text-base leading-relaxed text-white/80">{project.overview}</p>
+                <p className="text-lg leading-relaxed text-white/80">{project.overview}</p>
               </section>
-              <section className="space-y-4">
+              <section className="space-y-6">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Technical Execution</h2>
-                <p className="text-base leading-relaxed text-white/80">{project.execution}</p>
+                <p className="text-lg leading-relaxed text-white/80">{project.execution}</p>
               </section>
-              <section className="space-y-4">
+              <section className="space-y-6">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Impact</h2>
-                <p className="text-base leading-relaxed text-white/80">{project.impact}</p>
+                <p className="text-lg leading-relaxed text-white/80">{project.impact}</p>
               </section>
             </div>
 
-            <aside className="rounded-[28px] border border-white/10 bg-white/5 p-8 shadow-xl shadow-black/10">
+            <aside className="rounded-[32px] border border-white/10 bg-white/5 p-10 shadow-[0_25px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
               <h2 className="text-sm uppercase tracking-[0.2em] text-white/70 mb-6">Tech Stack</h2>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-[11px] px-3 py-1.5 rounded-full bg-white/10 text-white/80 border border-white/10"
+                    className="text-[11px] rounded-full border border-white/10 bg-white/10 px-4 py-2 text-white/80"
                   >
                     {tech}
                   </span>
@@ -229,7 +244,7 @@ function ProjectDetailPage({ project, onClose }: { project: typeof PROJECTS[0], 
               </div>
             </aside>
           </div>
-        </div>
+        </main>
       </div>
     </motion.div>
   );
