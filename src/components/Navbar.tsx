@@ -128,7 +128,7 @@ function SayHiButton() {
       <span
         className="absolute rounded-full transition-opacity duration-300 pointer-events-none"
         style={{
-          inset: '-1.5px',
+          inset: '-0.5px',
           background: 'rgba(0,0,0,0.54)',
           opacity: hovered ? 1 : 0,
         }}

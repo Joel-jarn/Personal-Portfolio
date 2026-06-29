@@ -172,84 +172,65 @@ function ProjectCard({ project, i, onClick }: { project: typeof PROJECTS[0]; i: 
   );
 }
 
-// Modal component to show rich project data
-function ProjectModal({ project, onClose }: { project: typeof PROJECTS[0], onClose: () => void }) {
+function ProjectDetailPage({ project, onClose }: { project: typeof PROJECTS[0], onClose: () => void }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-10"
-      style={{ background: 'rgba(4,4,4,0.85)', backdropFilter: 'blur(8px)' }}
+      className="fixed inset-0 z-[9999] overflow-y-auto bg-[#030303] text-white"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      onClick={onClose}
     >
-      <motion.div
-        className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl"
-        style={{ background: 'hsl(var(--surface))', border: '1px solid hsl(var(--stroke))' }}
-        initial={{ y: 40, opacity: 0, scale: 0.98 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
-        exit={{ y: 20, opacity: 0, scale: 0.98 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
+      <div className="min-h-screen px-5 py-6 sm:px-8 lg:px-12 xl:px-16">
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 z-20 w-11 h-11 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/80 transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
         >
-          X
+          ← Go back
         </button>
 
-        {/* Content */}
-        <div className="p-8 md:p-16 relative z-10">
-          <div className="flex flex-wrap gap-4 mb-8">
-             <span className="text-[10px] uppercase tracking-[0.1em] px-3 py-1.5 rounded-full" style={{ background: 'hsl(var(--stroke))', color: 'hsl(var(--text))', fontFamily: 'Inter, sans-serif' }}>
-                {project.category}
-             </span>
-             <span className="text-[10px] uppercase tracking-[0.1em] px-3 py-1.5 rounded-full" style={{ background: 'transparent', border: '1px solid hsl(var(--stroke))', color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>
-                Status: {project.year}
-             </span>
+        <div className="mt-10 space-y-10">
+          <div className="space-y-4">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.2em] text-white/80">
+              {project.category}
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light leading-tight" style={{ color: '#f5f5f5' }}>
+              {project.title}
+            </h1>
+            <p className="text-sm uppercase tracking-[0.3em] text-white/60">{project.year}</p>
           </div>
-          
-          <h2 className="text-3xl md:text-5xl font-light mb-12" style={{ color: 'hsl(var(--text))' }}>
-            {project.title}
-          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="md:col-span-2 space-y-10">
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.2em] mb-3" style={{ color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>Overview</h4>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: 'hsl(var(--text))', fontFamily: 'Inter, sans-serif' }}>{project.overview}</p>
-              </div>
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.2em] mb-3" style={{ color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>Technical Execution</h4>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: 'hsl(var(--text))', fontFamily: 'Inter, sans-serif' }}>{project.execution}</p>
-              </div>
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.2em] mb-3" style={{ color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>Impact</h4>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: 'hsl(var(--text))', fontFamily: 'Inter, sans-serif' }}>{project.impact}</p>
-              </div>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="space-y-12">
+              <section className="space-y-4">
+                <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Overview</h2>
+                <p className="text-base leading-relaxed text-white/80">{project.overview}</p>
+              </section>
+              <section className="space-y-4">
+                <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Technical Execution</h2>
+                <p className="text-base leading-relaxed text-white/80">{project.execution}</p>
+              </section>
+              <section className="space-y-4">
+                <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Impact</h2>
+                <p className="text-base leading-relaxed text-white/80">{project.impact}</p>
+              </section>
             </div>
 
-            <div className="space-y-8">
-              <div>
-                <h4 className="text-xs uppercase tracking-[0.2em] mb-4" style={{ color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>Tech Stack</h4>
-                <div className="flex flex-wrap gap-2">
-                  {project.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-[11px] px-3 py-1.5 rounded-full"
-                      style={{ background: 'rgba(255,255,255,0.05)', color: '#a3a3a3', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'Inter, sans-serif' }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+            <aside className="rounded-[28px] border border-white/10 bg-white/5 p-8 shadow-xl shadow-black/10">
+              <h2 className="text-sm uppercase tracking-[0.2em] text-white/70 mb-6">Tech Stack</h2>
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-[11px] px-3 py-1.5 rounded-full bg-white/10 text-white/80 border border-white/10"
+                  >
+                    {tech}
+                  </span>
+                ))}
               </div>
-            </div>
+            </aside>
           </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
@@ -278,7 +259,7 @@ export default function WorksSection() {
 
       <AnimatePresence>
         {selectedProject && (
-          <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+          <ProjectDetailPage project={selectedProject} onClose={() => setSelectedProject(null)} />
         )}
       </AnimatePresence>
     </>

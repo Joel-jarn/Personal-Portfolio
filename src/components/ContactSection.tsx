@@ -46,7 +46,7 @@ function EmailCTA() {
     >
       <span
         className="absolute rounded-full pointer-events-none transition-opacity duration-300"
-        style={{ inset: '-1.5px', background: 'linear-gradient(90deg,#89aacc,#4e85bf)', opacity: hov ? 1 : 0 }}
+        style={{ inset: '-0.5px', background: 'linear-gradient(90deg,#25D366,#1EBE57)', opacity: hov ? 1 : 0 }}
       />
       <a
         href={WHATSAPP_LINK}
@@ -55,17 +55,17 @@ function EmailCTA() {
         id="contact-email"
         className="relative z-10 inline-flex items-center gap-3 rounded-full px-8 py-4 transition-all duration-300 text-sm md:text-base font-medium"
         style={{
-          color: 'hsl(var(--text))',
-          background: 'rgba(12,12,12,0.8)',
-          border: '1px solid rgba(255,255,255,0.1)',
+          color: '#fff',
+          background: hov ? 'linear-gradient(135deg, #1EBE57, #25D366)' : 'linear-gradient(135deg, #25D366, #1EBE57)',
+          border: '1px solid rgba(255,255,255,0.14)',
           margin: hov ? '1.5px' : '0',
           transform: hov ? 'scale(1.04)' : 'scale(1)',
           fontFamily: 'Inter, sans-serif',
-          backdropFilter: 'blur(8px)',
+          backdropFilter: 'blur(10px)',
         }}
       >
         WhatsApp me
-        <span className="text-lg" style={{ opacity: 0.6 }}>↗</span>
+        <span className="text-lg" style={{ opacity: 0.9 }}>↗</span>
       </a>
     </div>
   );

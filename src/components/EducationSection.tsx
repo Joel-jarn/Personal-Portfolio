@@ -87,7 +87,7 @@ export default function EducationSection() {
                 >
                   {/* Timeline Dot */}
                   <div
-                    className="absolute left-5 md:left-1/2 top-3 md:top-5 w-6 h-6 rounded-full -translate-x-1/2 z-10 flex items-center justify-center timeline-dot"
+                    className="absolute left-4 md:left-1/2 top-5 w-6 h-6 rounded-full -translate-x-1/2 z-10 flex items-center justify-center timeline-dot"
                     style={{
                       background: 'hsl(var(--bg))',
                       border: '1px solid rgba(137,170,204,0.55)',
