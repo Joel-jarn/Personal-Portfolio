@@ -1,7 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const PROJECTS = [
+// --- Types & Constants ---
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  year: string;
+  cols: string;
+  image: string;
+  overview: string;
+  execution: string;
+  impact: string;
+  stack: string[];
+}
+
+const PROJECTS: Project[] = [
   {
     id: 1,
     title: 'AI-Based DCD/ASD Detection',
@@ -64,7 +78,12 @@ const PROJECTS = [
   },
 ];
 
-const smoothFade = { duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] };
+const smoothFade = { 
+  duration: 0.85, 
+  ease: [0.16, 1, 0.3, 1] as [number, number, number, number] 
+};
+
+// --- Sub-Components ---
 
 function SectionHeader() {
   return (
@@ -77,15 +96,15 @@ function SectionHeader() {
     >
       <div>
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-6 h-px" style={{ background: 'hsl(var(--stroke))' }} />
-          <span className="text-[11px] uppercase tracking-[0.3em]" style={{ color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>
+          <div className="w-6 h-px bg-[hsl(var(--stroke))]" />
+          <span className="text-[11px] uppercase tracking-[0.3em] text-[hsl(var(--muted))] font-sans font-medium">
             Selected Work
           </span>
         </div>
-        <h2 className="font-body font-light leading-tight" style={{ color: 'hsl(var(--text))', fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}>
-          Featured <em className="font-display" style={{ fontStyle: 'italic' }}>projects</em>
+        <h2 className="font-body font-light leading-tight text-[hsl(var(--text))] text-clamp">
+          Featured <em className="font-display not-italic font-serif italic">projects</em>
         </h2>
-        <p className="text-sm mt-2 max-w-xs leading-relaxed" style={{ color: 'hsl(var(--muted))', fontFamily: 'Inter, sans-serif' }}>
+        <p className="text-sm mt-2 max-w-xs leading-relaxed text-[hsl(var(--muted))] font-sans">
           Functional AI tools and embedded logic built for real-world impact.
         </p>
       </div>
@@ -93,79 +112,73 @@ function SectionHeader() {
   );
 }
 
-function ProjectCard({ project, i, onClick }: { project: typeof PROJECTS[0]; i: number, onClick: () => void }) {
-  const [hov, setHov] = useState(false);
+interface ProjectCardProps {
+  project: Project;
+  i: number;
+  onClick: () => void;
+}
+
+function ProjectCard({ project, i, onClick }: ProjectCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const isLargeRow = project.cols === 'md:col-span-12';
+
   return (
     <motion.div
-      className={`group relative ${project.cols} rounded-[20px] overflow-hidden cursor-pointer`}
-      style={{ background: 'hsl(var(--surface))', border: '1px solid hsl(var(--stroke))', minHeight: project.cols === 'md:col-span-12' ? 580 : 500 }}
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
+      className={`group relative ${project.cols} rounded-[20px] overflow-hidden cursor-pointer border border-[hsl(var(--stroke))] bg-[hsl(var(--surface))] ${isLargeRow ? 'min-h-[580px]' : 'min-h-[500px]'}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ ...smoothFade, delay: i * 0.06 }}
     >
+      {/* Background Image */}
       <img
         src={project.image}
         alt={project.title}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ transform: hov ? 'scale(1.05)' : 'scale(1)', transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1)' }}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        style={{ transform: isHovered ? 'scale(1.05)' : 'scale(1)' }}
         loading="lazy"
       />
       <div className="absolute inset-0 halftone-overlay pointer-events-none" />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to top,rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.16) 46%, rgba(0,0,0,0.08) 100%)' }} />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/80 via-black/20 to-black/10" />
 
-      {/* Badges */}
+      {/* Badges Top Bar */}
       <div
-        className="absolute top-6 left-6 right-6 flex flex-wrap items-start justify-between gap-4"
-        style={{ opacity: hov ? 0 : 1, transition: 'opacity 0.3s ease' }}
+        className={`absolute top-6 left-6 right-6 flex flex-wrap items-start justify-between gap-4 transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
       >
-        <div
-          className="max-w-[74%] px-5 py-3 rounded-full text-[10px] uppercase tracking-[0.11em] leading-relaxed"
-          style={{
-            background: 'rgba(245,245,245,0.9)',
-            color: '#111',
-            backdropFilter: 'blur(14px)',
-            fontFamily: 'Inter, sans-serif',
-          }}
-        >
+        <div className="max-w-[74%] px-5 py-2.5 rounded-full text-[10px] uppercase tracking-[0.11em] leading-relaxed bg-white/90 text-neutral-900 backdrop-blur-md font-sans font-medium">
           {project.category}
         </div>
-        <div
-          className="text-[10px] px-5 py-3 rounded-full min-w-[104px] text-center uppercase tracking-[0.1em]"
-          style={{
-            background: 'rgba(0,0,0,0.58)',
-            color: 'rgba(255,255,255,0.78)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(12px)',
-            fontFamily: 'Inter, sans-serif',
-          }}
-        >
+        <div className="text-[10px] px-5 py-2.5 rounded-full min-w-[104px] text-center uppercase tracking-[0.1em] bg-black/60 text-white/80 border border-white/10 backdrop-blur-md font-sans">
           {project.year}
         </div>
       </div>
 
-      <div className="absolute left-5 right-5 bottom-6 sm:left-6 sm:right-6 sm:bottom-8 md:left-8 md:right-8 md:bottom-10">
-        <div className="rounded-[24px] bg-black/45 p-6 sm:p-8 backdrop-blur-xl border border-white/10">
-          <h3 className="text-2xl sm:text-[2.2rem] md:text-[2.6rem] font-light leading-tight mb-4" style={{ color: '#fff' }}>
+      {/* Content Block */}
+      <div className="absolute left-3 right-3 bottom-4 sm:left-6 sm:right-6 sm:bottom-8 md:left-8 md:right-8 md:bottom-10">
+        <div className="rounded-[20px] sm:rounded-[24px] bg-black/40 p-6 sm:p-10 md:p-12 backdrop-blur-xl border border-white/10 shadow-lg">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-light leading-tight mb-3 text-white">
             {project.title}
           </h3>
-          <p className="text-base sm:text-lg leading-relaxed max-w-[42rem]" style={{ color: 'rgba(255,255,255,0.78)', fontFamily: 'Inter, sans-serif' }}>
+          <p className="text-sm sm:text-base leading-relaxed max-w-2xl text-white/80 font-sans">
             {project.overview}
           </p>
         </div>
       </div>
 
-      {/* Hover overlay */}
+      {/* Action Hover Overlay */}
       <div
-        className="absolute inset-0 flex items-center justify-center p-7"
-        style={{ background: 'rgba(6,6,6,0.68)', backdropFilter: hov ? 'blur(14px)' : 'blur(0px)', opacity: hov ? 1 : 0, transition: 'opacity 0.4s ease, backdrop-filter 0.4s ease' }}
+        className="absolute inset-0 flex items-center justify-center p-7 bg-black/70 transition-all duration-400"
+        style={{ 
+          backdropFilter: isHovered ? 'blur(12px)' : 'blur(0px)', 
+          opacity: isHovered ? 1 : 0 
+        }}
       >
-        <div className="relative rounded-full" style={{ padding: '1.5px' }}>
-          <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(90deg,#89aacc,#4e85bf)' }} />
-          <span className="relative z-10 flex items-center gap-2 px-6 py-3 rounded-full text-sm" style={{ background: '#fff', color: '#111', fontFamily: 'Inter, sans-serif' }}>
+        <div className="relative p-[1px] rounded-full overflow-hidden group">
+          <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500" />
+          <span className="relative z-10 flex items-center gap-2 px-6 py-3 rounded-full text-sm font-sans font-medium bg-white text-neutral-900 transition-colors duration-200 group-hover:bg-neutral-50">
             View Details
           </span>
         </div>
@@ -174,10 +187,15 @@ function ProjectCard({ project, i, onClick }: { project: typeof PROJECTS[0]; i: 
   );
 }
 
-function ProjectDetailPage({ project, onClose }: { project: typeof PROJECTS[0], onClose: () => void }) {
+interface ProjectDetailProps {
+  project: Project;
+  onClose: () => void;
+}
+
+function ProjectDetailPage({ project, onClose }: ProjectDetailProps) {
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] overflow-y-auto bg-[#030303] text-white"
+      className="fixed inset-0 z-[9999] overflow-y-auto bg-neutral-950 text-white"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -185,58 +203,58 @@ function ProjectDetailPage({ project, onClose }: { project: typeof PROJECTS[0], 
       <div className="relative min-h-screen">
         <button
           onClick={onClose}
-          className="fixed top-4 left-4 z-50 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/75 px-4 py-2 text-sm text-white transition hover:bg-black/95"
+          className="fixed top-4 left-4 z-50 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/75 px-5 py-2.5 text-sm font-medium text-white backdrop-blur-md transition hover:bg-black/95 hover:border-white/25 shadow-xl"
         >
-          ← Go back
+          <span>←</span> Go back
         </button>
 
         <header className="relative">
-          <div className="aspect-[16/9] w-full overflow-hidden">
+          <div className="aspect-[21/9] w-full min-h-[350px] overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/45" />
+            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-black/20" />
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-14">
-            <div className="max-w-3xl rounded-[28px] border border-white/10 bg-black/40 p-8 backdrop-blur-xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-xs uppercase tracking-[0.2em] text-white/85">
+          <div className="absolute inset-x-0 bottom-0 px-4 pb-6 sm:px-10 lg:px-14">
+            <div className="max-w-4xl rounded-[20px] sm:rounded-[24px] border border-white/10 bg-black/40 p-6 sm:p-10 md:p-12 backdrop-blur-xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-white/90">
                 {project.category}
               </span>
-              <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-light leading-tight text-white">
+              <h1 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-light leading-tight text-white">
                 {project.title}
               </h1>
-              <p className="mt-3 text-sm uppercase tracking-[0.3em] text-white/60">{project.year}</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.3em] text-white/50">{project.year}</p>
             </div>
           </div>
         </header>
 
-        <main className="px-6 pb-20 pt-16 sm:px-10 lg:px-14 xl:px-16">
-          <div className="grid gap-16 lg:grid-cols-[1.3fr_0.7fr]">
-            <div className="space-y-16 max-w-4xl">
-              <section className="space-y-6">
-                <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Overview</h2>
-                <p className="text-lg leading-relaxed text-white/80">{project.overview}</p>
+        <main className="px-4 pb-20 pt-8 sm:px-10 lg:px-14 xl:px-16">
+          <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr] max-w-7xl mx-auto">
+            <div className="space-y-12">
+              <section className="space-y-4">
+                <h2 className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold">Overview</h2>
+                <p className="text-base sm:text-lg leading-relaxed text-white/80">{project.overview}</p>
               </section>
-              <section className="space-y-6">
-                <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Technical Execution</h2>
-                <p className="text-lg leading-relaxed text-white/80">{project.execution}</p>
+              <section className="space-y-4">
+                <h2 className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold">Technical Execution</h2>
+                <p className="text-base sm:text-lg leading-relaxed text-white/80">{project.execution}</p>
               </section>
-              <section className="space-y-6">
-                <h2 className="text-sm uppercase tracking-[0.2em] text-white/70">Impact</h2>
-                <p className="text-lg leading-relaxed text-white/80">{project.impact}</p>
+              <section className="space-y-4">
+                <h2 className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold">Impact</h2>
+                <p className="text-base sm:text-lg leading-relaxed text-white/80">{project.impact}</p>
               </section>
             </div>
 
-            <aside className="rounded-[32px] border border-white/10 bg-white/5 p-10 shadow-[0_25px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
-              <h2 className="text-sm uppercase tracking-[0.2em] text-white/70 mb-6">Tech Stack</h2>
-              <div className="flex flex-wrap gap-3">
+            <aside className="h-fit rounded-[20px] sm:rounded-[24px] border border-white/10 bg-white/5 p-8 sm:p-10 md:p-12 backdrop-blur-xl shadow-2xl">
+              <h2 className="text-xs uppercase tracking-[0.2em] text-white/50 font-semibold mb-5">Tech Stack</h2>
+              <div className="flex flex-wrap gap-2.5">
                 {project.stack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-[11px] rounded-full border border-white/10 bg-white/10 px-4 py-2 text-white/80"
+                    className="text-xs rounded-full border border-white/10 bg-white/5 px-4 py-2 text-white/90 tracking-wide font-sans"
                   >
                     {tech}
                   </span>
@@ -250,23 +268,36 @@ function ProjectDetailPage({ project, onClose }: { project: typeof PROJECTS[0], 
   );
 }
 
-export default function WorksSection() {
-  const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
+// --- Main Section Export ---
 
-  // Lock body scroll when modal is open
-  if (typeof window !== 'undefined') {
-    if (selectedProject) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = 'auto';
-  }
+export default function WorksSection() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Safely manage structural document side-effects using an effect block
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selectedProject]);
 
   return (
     <>
-      <section id="works" className="py-20 md:py-28" style={{ background: 'hsl(var(--bg))' }}>
-        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+      <section id="works" className="py-20 md:py-28 bg-[hsl(var(--bg))]">
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 max-w-[1400px] mx-auto">
           <SectionHeader />
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            {PROJECTS.map((p, i) => (
-              <ProjectCard key={p.id} project={p} i={i} onClick={() => setSelectedProject(p)} />
+            {PROJECTS.map((project, i) => (
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                i={i} 
+                onClick={() => setSelectedProject(project)} 
+              />
             ))}
           </div>
         </div>
@@ -274,7 +305,10 @@ export default function WorksSection() {
 
       <AnimatePresence>
         {selectedProject && (
-          <ProjectDetailPage project={selectedProject} onClose={() => setSelectedProject(null)} />
+          <ProjectDetailPage 
+            project={selectedProject} 
+            onClose={() => setSelectedProject(null)} 
+          />
         )}
       </AnimatePresence>
     </>

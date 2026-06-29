@@ -28,7 +28,7 @@ function SkillCard({ skill, i }: { skill: typeof SKILLS[0]; i: number }) {
   return (
     <motion.div
       ref={ref}
-      className="flex min-h-[360px] flex-col gap-8 p-10 md:p-12 rounded-[22px] border"
+      className="flex min-h-[360px] flex-col gap-8 p-6 sm:p-8 md:p-12 rounded-[22px] border"
       style={{
         background: 'linear-gradient(180deg, rgba(0,0,0,0.62), rgba(0,0,0,0.28))',
         borderColor: 'rgba(255,255,255,0.14)',
@@ -70,7 +70,7 @@ function SkillCard({ skill, i }: { skill: typeof SKILLS[0]; i: number }) {
 export default function StatsSection() {
   return (
     <section id="skills" className="py-28 md:py-36" style={{ background: 'hsl(var(--bg))' }}>
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <motion.div
           className="mb-10 md:mb-14"
           initial={{ opacity: 0, y: 24 }}

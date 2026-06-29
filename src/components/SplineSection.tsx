@@ -7,7 +7,7 @@ export default function SplineSection() {
   return (
     <section
       id="about"
-      className="relative py-20 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12"
+      className="relative py-20 md:py-24 px-4 sm:px-6 md:px-8 lg:px-12 max-w-[1400px] mx-auto"
       style={{ background: '#030303' }}
     >
       <Card

@@ -58,16 +58,7 @@ a, button {
   touch-action: manipulation;
 }
 
-/* Make most sections use a consistent responsive gutter so text and images
-   don't touch viewport edges on small devices. Hero intentionally manages
-   its own spacing, so we exclude `#home`. */
-main > section:not(#home) {
-  padding-left: var(--site-h-padding);
-  padding-right: var(--site-h-padding);
-  padding-top: var(--site-v-padding);
-  padding-bottom: var(--site-v-padding);
-  box-sizing: border-box;
-}
+/* Removed duplicate padding rules that caused mobile crowding */
 
 /* Reusable centered content container used across sections to keep
    consistent max-width and responsive side padding. */
@@ -181,6 +172,12 @@ img, video {
 }
 .font-body {
   font-family: "Inter", sans-serif;
+}
+
+@layer utilities {
+  .text-clamp {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+  }
 }
 
 /* =====================================================

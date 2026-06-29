@@ -5,7 +5,7 @@ const smoothFade = { duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number, number,
 export default function JournalSection() {
   return (
     <section id="leadership" className="py-20 md:py-28" style={{ background: 'hsl(var(--bg))' }}>
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <motion.div
           className="flex items-end justify-between mb-12 md:mb-16"
           initial={{ opacity: 0, y: 24 }}
@@ -30,7 +30,7 @@ export default function JournalSection() {
         </motion.div>
 
         <motion.div
-          className="relative w-full rounded-[22px] border p-11 md:p-20 lg:p-24"
+          className="relative w-full rounded-[22px] border p-6 sm:p-10 md:p-20 lg:p-24"
           style={{
             background: 'linear-gradient(180deg, rgba(0,0,0,0.62), rgba(0,0,0,0.28))',
             borderColor: 'rgba(255,255,255,0.13)',

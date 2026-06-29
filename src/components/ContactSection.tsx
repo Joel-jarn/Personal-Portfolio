@@ -39,33 +39,24 @@ function SocialIcon({ type }: { type: 'linkedin' | 'github' | 'email' }) {
 function EmailCTA() {
   const [hov, setHov] = useState(false);
   return (
-    <div
-      className="relative inline-flex rounded-full"
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-    >
+    <div className="relative inline-flex rounded-full group">
       <span
-        className="absolute rounded-full pointer-events-none transition-opacity duration-300"
-        style={{ inset: '-0.5px', background: 'linear-gradient(90deg,#25D366,#1EBE57)', opacity: hov ? 1 : 0 }}
+        className="absolute inset-0 rounded-full bg-gradient-to-r from-[#25D366] to-[#1EBE57] blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-300"
       />
       <a
         href={WHATSAPP_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        id="contact-email"
-        className="relative z-10 inline-flex items-center gap-3 rounded-full px-8 py-4 transition-all duration-300 text-sm md:text-base font-medium"
+        id="contact-whatsapp"
+        className="relative z-10 inline-flex items-center gap-4 rounded-full px-10 py-5 transition-transform duration-300 text-sm md:text-base font-semibold text-white shadow-xl group-hover:scale-[1.03]"
         style={{
-          color: '#fff',
-          background: hov ? 'linear-gradient(135deg, #1EBE57, #25D366)' : 'linear-gradient(135deg, #25D366, #1EBE57)',
-          border: '1px solid rgba(255,255,255,0.14)',
-          margin: hov ? '1.5px' : '0',
-          transform: hov ? 'scale(1.04)' : 'scale(1)',
+          background: 'linear-gradient(135deg, #25D366, #1EBE57)',
+          border: '1px solid rgba(255,255,255,0.2)',
           fontFamily: 'Inter, sans-serif',
-          backdropFilter: 'blur(10px)',
         }}
       >
         WhatsApp me
-        <span className="text-lg" style={{ opacity: 0.9 }}>↗</span>
+        <span className="text-xl leading-none">↗</span>
       </a>
     </div>
   );
