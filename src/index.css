@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-body: "Inter", sans-serif;
+  --font-family-display: "Instrument Serif", serif;
+
+  --color-bg: hsl(0 0% 4%);
+  --color-surface: hsl(0 0% 8%);
+  --color-text-primary: hsl(0 0% 96%);
+  --color-muted: hsl(0 0% 53%);
+  --color-stroke: hsl(0 0% 12%);
+}
+
+:root {
+  --bg: 0 0% 4%;
+  --surface: 0 0% 8%;
+  --text: 0 0% 96%;
+  --muted: 0 0% 53%;
+  --stroke: 0 0% 12%;
+  --accent: 0 0% 96%;
+}
+
+/* Responsive page padding and container variables
+   - `--site-h-padding` adapts to viewport width for comfortable gutters
+   - Apply to sections (except hero) to keep content from touching edges
+*/
+:root {
+  --site-h-padding: clamp(24px, 4vw, 64px);
+  --site-v-padding: clamp(20px, 4vw, 80px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: hsl(var(--bg));
+  color: hsl(var(--text));
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-width: 320px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Make most sections use a consistent responsive gutter so text and images
+   don't touch viewport edges on small devices. Hero intentionally manages
+   its own spacing, so we exclude `#home`. */
+main > section:not(#home) {
+  padding-left: var(--site-h-padding);
+  padding-right: var(--site-h-padding);
+  padding-top: var(--site-v-padding);
+  padding-bottom: var(--site-v-padding);
+  box-sizing: border-box;
+}
+
+/* Reusable centered content container used across sections to keep
+   consistent max-width and responsive side padding. */
+.site-container {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--site-h-padding);
+  padding-right: var(--site-h-padding);
+  box-sizing: border-box;
+}
+
+/* Ensure images and video elements scale responsively and don't overflow */
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* =====================================================
+   Accent Gradient
+   ===================================================== */
+.accent-gradient {
+  background: linear-gradient(90deg, #89aacc 0%, #4e85bf 100%);
+}
+
+.accent-gradient-text {
+  background: linear-gradient(90deg, #89aacc 0%, #4e85bf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =====================================================
+   Custom Keyframes
+   ===================================================== */
+@keyframes scroll-down {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(200%); opacity: 0; }
+}
+
+/* Smoother role fade — cubic ease, longer duration */
+@keyframes role-fade-in {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0px); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(1.35); }
+}
+
+/* Spotlight (Aceternity) */
+@keyframes spotlight {
+  0%   { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+}
+
+/* =====================================================
+   Animation utility classes
+   ===================================================== */
+.animate-scroll-down {
+  animation: scroll-down 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-role-fade-in {
+  animation: role-fade-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease 0.75s 1 forwards;
+}
+
+/* =====================================================
+   Halftone overlay
+   ===================================================== */
+.halftone-overlay {
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 6px 6px;
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+
+/* Make halftone less intrusive on small screens */
+@media (max-width: 768px) {
+  .halftone-overlay { opacity: 0.06; background-size: 8px 8px; }
+}
+
+@media (max-width: 640px) {
+  .site-container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+/* Timeline dot priority in education section to avoid overlap */
+#education .timeline-dot { z-index: 30; }
+
+/* =====================================================
+   Font utilities
+   ===================================================== */
+.font-display {
+  font-family: "Instrument Serif", serif;
+}
+.font-body {
+  font-family: "Inter", sans-serif;
+}
+
+/* =====================================================
+   GPU acceleration hints for animated elements
+   ===================================================== */
+.hero-name,
+.hero-blur,
+.gsap-fade {
+  will-change: transform, opacity;
+}
+
+/* =====================================================
+   Custom scrollbar
+   ===================================================== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: hsl(var(--bg)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--stroke)); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted)); }
+
+.tabular-nums { font-variant-numeric: tabular-nums; }
